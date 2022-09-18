@@ -5,7 +5,7 @@ import Map from "./Map";
 function Play({ locations, round, onRoundEnd }) {
   return (
     <>
-      <Score></Score>
+      <Score round={round}></Score>
       <Map locations={locations} round={round} onRoundEnd={onRoundEnd}></Map>
     </>
   );

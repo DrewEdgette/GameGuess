@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Score() {
+function Score({round}) {
   return (
-    <div className='score'>Score</div>
+    <div className='score'>Round: {round+1}/5</div>
   )
 }
 
