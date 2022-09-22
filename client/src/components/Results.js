@@ -1,13 +1,22 @@
 import React from "react";
 import ResultsMap from "./ResultsMap";
+import L from "leaflet";
 
-function Results({ locations, round, onContinueClick }) {
+function Results({ locations, guessLocation, round, onContinueClick, onNewGameClick }) {
+  let button;
+  button =
+    round < 4 ? (
+      <button onClick={onContinueClick}>Next Round</button>
+    ) : (
+      <button onClick={onNewGameClick}>New Game</button>
+    );
 
   return (
-  <div className="results">
-    <ResultsMap locations={locations}></ResultsMap>
-    <button onClick={onContinueClick}>Next Round</button>
-    </div>);
+    <div className="results">
+      <ResultsMap locations={locations} guessLocation={guessLocation} round={round}></ResultsMap>
+      {button}
+    </div>
+  );
 }
 
 export default Results;

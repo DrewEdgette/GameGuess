@@ -1,9 +1,11 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import { useEffect, useState } from "react";
 import MapEvents from "./MapEvents";
+import { useState } from "react";
 
-function Map({ locations, round, onRoundEnd }) {
+function Map({ locations, setGuessLocation, round, onRoundEnd }) {
+  const [hasGuessed, setHasGuessed] = useState(false);
+
   return (
     <div className="guess-map">
       <MapContainer center={[40, 0]} zoom={1} scrollWheelZoom={true}>
@@ -13,19 +15,22 @@ function Map({ locations, round, onRoundEnd }) {
           noWrap={true}
           url="https://tiles.modmapper.com/{z}/{x}/{y}.jpg"
         />
-        <MapEvents onRoundEnd={onRoundEnd}></MapEvents>
+        <MapEvents
+          setGuessLocation={setGuessLocation}
+          onRoundEnd={onRoundEnd}
+          hasGuessed={() => setHasGuessed(true)}
+        ></MapEvents>
 
         {locations ? (
           <Marker
-            position={[
-              locations[round].longitude,
-              locations[round].latitude,
-            ]}
+            position={[locations[round].longitude, locations[round].latitude]}
           ></Marker>
         ) : null}
       </MapContainer>
 
-      <button onClick={onRoundEnd}>GUESS</button>
+      <button onClick={onRoundEnd} disabled={!hasGuessed}>
+        {hasGuessed ? "GUESS" : "PLACE A PIN ON THE MAP"}
+      </button>
     </div>
   );
 }

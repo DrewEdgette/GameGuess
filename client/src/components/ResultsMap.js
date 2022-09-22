@@ -1,7 +1,8 @@
 import React from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import L from "leaflet";
 
-function ResultsMap({ locations }) {
+function ResultsMap({ locations, guessLocation, round }) {
   return (
     <div className="results-map">
       <MapContainer center={[40, 0]} zoom={1} scrollWheelZoom={true}>
@@ -11,6 +12,18 @@ function ResultsMap({ locations }) {
           noWrap={true}
           url="https://tiles.modmapper.com/{z}/{x}/{y}.jpg"
         />
+
+        {locations && guessLocation ? (
+          <>
+            <Marker
+              position={[locations[round].longitude, locations[round].latitude]}
+            ></Marker>
+
+            <Marker
+              position={guessLocation}
+            ></Marker>
+          </>
+        ) : null}
       </MapContainer>
     </div>
   );

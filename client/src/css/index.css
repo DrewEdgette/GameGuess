@@ -109,7 +109,12 @@ select {
   width: 100%;
   border-radius: 20px;
   color: white;
+  background-color: rgb(9, 142, 9);
+}
+
+.guess-map > button:disabled {
   background-color: black;
+  cursor: not-allowed;
 }
 
 .guess-map > .leaflet-container {
@@ -118,6 +123,7 @@ select {
   position: relative;
   background-color: #274257;
   border-radius: 10px;
+  cursor: crosshair;
 }
 
 .results-map {

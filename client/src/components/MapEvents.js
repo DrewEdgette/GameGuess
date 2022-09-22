@@ -2,7 +2,7 @@ import { useMapEvents, Marker } from "react-leaflet";
 import { useState } from "react";
 import L from "leaflet";
 
-function MapEvents() {
+function MapEvents({ hasGuessed, setGuessLocation }) {
   const [position, setPosition] = useState(null);
 
   const skyCon = new L.Icon({
@@ -13,6 +13,8 @@ function MapEvents() {
 
   const map = useMapEvents({
     click: (event) => {
+      hasGuessed();
+      setGuessLocation(event.latlng);
       setPosition(event.latlng);
     },
     mouseover: () => {
