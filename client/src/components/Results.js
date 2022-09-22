@@ -1,6 +1,5 @@
 import React from "react";
 import ResultsMap from "./ResultsMap";
-import L from "leaflet";
 
 function Results({ locations, guessLocation, round, onContinueClick, onNewGameClick }) {
   let button;

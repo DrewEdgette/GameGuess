@@ -8,7 +8,7 @@ function Map({ locations, setGuessLocation, round, onRoundEnd }) {
 
   return (
     <div className="guess-map">
-      <MapContainer center={[40, 0]} zoom={1} scrollWheelZoom={true}>
+      <MapContainer maxBounds={[[-64,-180],[110,156]]} center={[40, 0]} zoom={1} scrollWheelZoom={true}>
         <TileLayer
           minZoom={1}
           maxZoom={8}
@@ -20,12 +20,6 @@ function Map({ locations, setGuessLocation, round, onRoundEnd }) {
           onRoundEnd={onRoundEnd}
           hasGuessed={() => setHasGuessed(true)}
         ></MapEvents>
-
-        {locations ? (
-          <Marker
-            position={[locations[round].longitude, locations[round].latitude]}
-          ></Marker>
-        ) : null}
       </MapContainer>
 
       <button onClick={onRoundEnd} disabled={!hasGuessed}>
