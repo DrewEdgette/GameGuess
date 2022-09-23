@@ -21,8 +21,9 @@ function Map({ locations, setGuessLocation, round, onRoundEnd }) {
           onRoundEnd={onRoundEnd}
           hasGuessed={() => setHasGuessed(true)}
         ></MapEvents>
-
-        <Marker position={[locations[round].latitude, locations[round].longitude]}></Marker>
+        
+        {/* for cheaters
+        <Marker position={[locations[round].latitude, locations[round].longitude]}></Marker> */}
 
       </MapContainer>
 

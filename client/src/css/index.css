@@ -79,7 +79,7 @@ select {
   position: absolute;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   top: 15px;
   right: 15px;
   width: 45vw;
@@ -87,6 +87,8 @@ select {
   color: white;
   background-color: black;
   border-radius: 10px;
+  padding: 0 20px;
+  font-size: 24px;
 }
 
 .guess-map {
