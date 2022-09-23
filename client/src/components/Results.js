@@ -1,19 +1,28 @@
 import React from "react";
 import ResultsMap from "./ResultsMap";
+import ResultsInfo from "./ResultsInfo";
 
-function Results({ locations, guessLocation, round, onContinueClick, onNewGameClick }) {
-  let button;
-  button =
-    round < 4 ? (
-      <button onClick={onContinueClick}>Next Round</button>
-    ) : (
-      <button onClick={onNewGameClick}>New Game</button>
-    );
-
+function Results({
+  locations,
+  guessLocation,
+  round,
+  onContinueClick,
+  onNewGameClick,
+}) {
   return (
     <div className="results">
-      <ResultsMap locations={locations} guessLocation={guessLocation} round={round}></ResultsMap>
-      {button}
+      <ResultsMap
+        locations={locations}
+        guessLocation={guessLocation}
+        round={round}
+      ></ResultsMap>
+      <ResultsInfo
+        round={round}
+        locations={locations}
+        guessLocation={guessLocation}
+        onContinueClick={onContinueClick}
+        onNewGameClick={onNewGameClick}
+      ></ResultsInfo>
     </div>
   );
 }

@@ -24,6 +24,8 @@ function App() {
 
   return (
     <div className="App">
+      {/* guess location: {guessLocation.toString()}
+      correct location: {locations[round] !== undefined ? [locations[round].latitude, locations[round].longitude].toString() : null} */}
       {mode === "start" && (
         <Start
           onStartClick={() => {

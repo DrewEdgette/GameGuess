@@ -128,7 +128,7 @@ select {
 
 .results-map {
   width: 100vw;
-  height: 90vh;
+  height: 70vh;
 }
 
 .results-map > .leaflet-container {
@@ -138,7 +138,8 @@ select {
   background-color: #274257;
 }
 
-.results > button {
+
+.results-info > button {
   position: fixed;
   bottom: 0;
   width: 100vw;

@@ -6,6 +6,7 @@ import { useState } from "react";
 function Map({ locations, setGuessLocation, round, onRoundEnd }) {
   const [hasGuessed, setHasGuessed] = useState(false);
 
+
   return (
     <div className="guess-map">
       <MapContainer maxBounds={[[-64,-180],[110,156]]} center={[40, 0]} zoom={1} scrollWheelZoom={true}>
@@ -20,10 +21,13 @@ function Map({ locations, setGuessLocation, round, onRoundEnd }) {
           onRoundEnd={onRoundEnd}
           hasGuessed={() => setHasGuessed(true)}
         ></MapEvents>
+
+        <Marker position={[locations[round].latitude, locations[round].longitude]}></Marker>
+
       </MapContainer>
 
       <button onClick={onRoundEnd} disabled={!hasGuessed}>
-        {hasGuessed ? "GUESS" : "PLACE A PIN ON THE MAP"}
+        {hasGuessed ? "Guess" : "Place a Pin on the Map"}
       </button>
     </div>
   );

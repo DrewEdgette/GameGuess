@@ -37,14 +37,14 @@ function ResultsMap({ locations, guessLocation, round }) {
           <>
             <Marker
               icon={answerIcon}
-              position={[locations[round].longitude, locations[round].latitude]}
+              position={[locations[round].latitude, locations[round].longitude]}
             ></Marker>
 
             <Marker icon={guessIcon} position={guessLocation}></Marker>
           </>
         ) : null}
 
-        <Polyline color="white" dashOffset="20" weight={2.5} dashArray={"10,10"} positions={[[locations[round].longitude, locations[round].latitude], guessLocation]}/>
+        <Polyline color="white" dashOffset="20" weight={2.5} dashArray={"10,10"} positions={[[locations[round].latitude, locations[round].longitude], guessLocation]}/>
       </MapContainer>
     </div>
   );
