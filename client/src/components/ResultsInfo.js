@@ -1,13 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { ChallengeContext } from "../contexts/ChallengeContext";
 
-function ResultsInfo({
-  round,
-  locations,
-  guessLocation,
-  onContinueClick,
-  onNewGameClick,
-}) {
+function ResultsInfo() {
+  const {onContinueClick, onNewGameClick, locations, round, guessLocation} = useContext(ChallengeContext);
   const [distance, setDistance] = useState(0);
 
   useEffect(() => {
@@ -26,8 +23,7 @@ function ResultsInfo({
     return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) * 16;
   };
 
-  let button;
-  button =
+  let button =
     round < 4 ? (
       <button onClick={onContinueClick}>Play Next Round</button>
     ) : (

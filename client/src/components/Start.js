@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
-function Start({ onStartClick }) {
+function Start({ setMode }) {
   return (
     <div>
-        <button onClick={onStartClick}>start game</button>
+      <button onClick={() => setMode("play")}>start game</button>
     </div>
-  )
+  );
 }
 
-export default Start
+export default Start;

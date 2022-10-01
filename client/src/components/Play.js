@@ -4,8 +4,8 @@ import Map from "./Map";
 import { useState, useEffect } from "react";
 import { Pannellum } from "pannellum-react";
 
-function Play({ locations, round, onRoundEnd, setGuessLocation }) {
-  const [minutes, setMinutes] = useState(2);
+function Play({ locations, round, setMode }) {
+  const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(59);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function Play({ locations, round, onRoundEnd, setGuessLocation }) {
 
       if (seconds === 0) {
         if (minutes === 0) {
-          onRoundEnd();
+          setMode("results");
         }
 
         setMinutes(minutes - 1);
@@ -35,12 +35,7 @@ function Play({ locations, round, onRoundEnd, setGuessLocation }) {
         autoLoad
       ></Pannellum>
       <Score round={round} minutes={minutes} seconds={seconds}></Score>
-      <Map
-        locations={locations}
-        setGuessLocation={setGuessLocation}
-        round={round}
-        onRoundEnd={onRoundEnd}
-      ></Map>
+      <Map setMode={setMode}></Map>
     </>
   );
 }

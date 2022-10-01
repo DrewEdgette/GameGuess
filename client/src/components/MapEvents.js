@@ -1,8 +1,11 @@
 import { useMapEvents, Marker } from "react-leaflet";
 import { useState } from "react";
 import L from "leaflet";
+import { useContext } from "react";
+import { ChallengeContext } from "../contexts/ChallengeContext";
 
-function MapEvents({ hasGuessed, setGuessLocation }) {
+function MapEvents({ hasGuessed }) {
+  const { setGuessLocation } = useContext(ChallengeContext);
   const [position, setPosition] = useState(null);
 
   const skyCon = new L.Icon({

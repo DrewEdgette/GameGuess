@@ -1,8 +1,12 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
-import L, { Layer } from "leaflet";
+import L from "leaflet";
+import { useContext } from "react";
+import { ChallengeContext } from "../contexts/ChallengeContext";
 
-function ResultsMap({ locations, guessLocation, round }) {
+function ResultsMap() {
+  const {locations, guessLocation, round} = useContext(ChallengeContext);
+
   const guessIcon = new L.Icon({
     iconUrl: require("../images/skycon.png"),
     iconAnchor: new L.Point(30, 60),
