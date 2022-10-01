@@ -54,9 +54,7 @@ function App() {
       >
         {mode === "start" && <Start setMode={setMode}></Start>}
 
-        {mode === "play" && (
-          <Play locations={locations} round={round} setMode={setMode}></Play>
-        )}
+        {mode === "play" && <Play></Play>}
 
         {mode === "results" && <Results></Results>}
       </ChallengeContext.Provider>

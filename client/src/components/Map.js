@@ -2,8 +2,11 @@ import React from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import MapEvents from "./MapEvents";
 import { useState } from "react";
+import { useContext } from "react";
+import { ChallengeContext } from "../contexts/ChallengeContext";
 
-function Map({ setMode }) {
+function Map() {
+  const { setMode } = useContext(ChallengeContext);
   const [hasGuessed, setHasGuessed] = useState(false);
 
   return (
@@ -23,9 +26,7 @@ function Map({ setMode }) {
           noWrap={true}
           url="https://tiles.modmapper.com/{z}/{x}/{y}.jpg"
         />
-        <MapEvents
-          hasGuessed={() => setHasGuessed(true)}
-        ></MapEvents>
+        <MapEvents hasGuessed={() => setHasGuessed(true)}></MapEvents>
 
         {/* for cheaters
         <Marker position={[locations[round].latitude, locations[round].longitude]}></Marker> */}

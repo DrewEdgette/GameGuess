@@ -6,7 +6,6 @@ function Results() {
   return (
     <div className="results">
       <ResultsMap></ResultsMap>
-
       <ResultsInfo></ResultsInfo>
     </div>
   );

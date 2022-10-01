@@ -3,8 +3,11 @@ import Score from "./Score";
 import Map from "./Map";
 import { useState, useEffect } from "react";
 import { Pannellum } from "pannellum-react";
+import { useContext } from "react";
+import { ChallengeContext } from "../contexts/ChallengeContext";
 
-function Play({ locations, round, setMode }) {
+function Play() {
+  const { locations, round, setMode } = useContext(ChallengeContext);
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(59);
 
@@ -35,7 +38,7 @@ function Play({ locations, round, setMode }) {
         autoLoad
       ></Pannellum>
       <Score round={round} minutes={minutes} seconds={seconds}></Score>
-      <Map setMode={setMode}></Map>
+      <Map></Map>
     </>
   );
 }
