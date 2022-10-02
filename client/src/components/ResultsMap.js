@@ -14,9 +14,9 @@ function ResultsMap() {
   });
 
   const answerIcon = new L.Icon({
-    iconUrl: require("../images/housecon.png"),
-    iconAnchor: new L.Point(30, 60),
-    iconSize: new L.Point(60, 60),
+    iconUrl: require("../images/questcon.png"),
+    iconAnchor: new L.Point(14, 50),
+    iconSize: new L.Point(28, 60),
   });
 
   return (
