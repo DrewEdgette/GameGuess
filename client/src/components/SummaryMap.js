@@ -6,6 +6,8 @@ import { ChallengeContext } from "../contexts/ChallengeContext";
 
 function SummaryMap() {
   const { locations, guessList } = useContext(ChallengeContext);
+  
+  const colors = ["red", "orange", "yellow", "green", "blue"];
 
   const guessIcon = new L.Icon({
     iconUrl: require("../images/skycon.png"),
@@ -35,22 +37,24 @@ function SummaryMap() {
           ? guessList.map((guessLocation, index) => {
               return (
                 <>
+                  <Marker icon={guessIcon} position={guessLocation}></Marker>
+
                   <Marker
-                    icon={new L.Icon({
-                        iconUrl: require(`../images/round${index+1}.png`),
+                    icon={
+                      new L.Icon({
+                        iconUrl: require(`../images/round${index + 1}.png`),
                         iconAnchor: new L.Point(14, 50),
                         iconSize: new L.Point(28, 60),
-                      })}
+                      })
+                    }
                     position={[
                       locations[index].latitude,
                       locations[index].longitude,
                     ]}
                   ></Marker>
 
-                  <Marker icon={guessIcon} position={guessLocation}></Marker>
-
                   <Polyline
-                    color="white"
+                    color={colors[index]}
                     dashOffset="20"
                     weight={2.5}
                     dashArray={"10,10"}

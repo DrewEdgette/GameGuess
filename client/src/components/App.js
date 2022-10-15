@@ -34,6 +34,8 @@ function App() {
     fetchLocations();
     setMode("start");
     setRound(0);
+    setTotalScore(0);
+    setGuessList([]);
     setGuessLocation(ORIGIN);
   };
 

@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { ChallengeContext } from "../contexts/ChallengeContext";
 
 function ResultsInfo() {
-  const {onContinueClick, onSummaryClick, locations, round, guessLocation} = useContext(ChallengeContext);
+  const {onContinueClick, onSummaryClick, locations, round, guessLocation, totalScore, setTotalScore} = useContext(ChallengeContext);
   const [distance, setDistance] = useState(31415926535);
   const [stringDistance, setStringDistance] = useState(distance.toString())
   const [score, setScore] = useState(0);
@@ -20,8 +20,9 @@ function ResultsInfo() {
     setStringDistance(stringify(distance));
 
     setScore(calcScore(distance));
+    setTotalScore(totalScore + score);
 
-  }, [distance, guessLocation, locations, round]);
+  }, [distance, guessLocation, locations, round, score]);
 
   const calcDistance = (x1, x2, y1, y2) => {
     return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) * 32;
@@ -36,7 +37,7 @@ function ResultsInfo() {
       return 0;
     }
 
-    return (5000 - distance * 5).toFixed(0);
+    return Math.round(5000 - distance * 5);
   }
 
   const stringify = (distance) => {
