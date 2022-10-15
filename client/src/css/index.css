@@ -86,7 +86,7 @@ select {
   height: 50px;
   color: white;
   background-color: black;
-  border-radius: 10px;
+  border-radius: 30px;
   padding: 0 20px;
   font-size: 24px;
 }
@@ -110,12 +110,14 @@ select {
 .guess-map > button {
   width: 100%;
   border-radius: 20px;
+  border-color: rgb(9, 142, 9);
   color: white;
   background-color: rgb(9, 142, 9);
 }
 
 .guess-map > button:disabled {
   background-color: black;
+  border-color: black;
   cursor: not-allowed;
 }
 
@@ -140,6 +142,10 @@ select {
   background-color: #274257;
 }
 
+.results-info {
+  font-size: 22px;
+  display: block;
+}
 
 .results-info > button {
   position: fixed;

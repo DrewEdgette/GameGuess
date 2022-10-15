@@ -4,12 +4,12 @@ import { useContext } from "react";
 import { ChallengeContext } from "../contexts/ChallengeContext";
 
 function ResultsInfo() {
-  const {onContinueClick, onNewGameClick, locations, round, guessLocation} = useContext(ChallengeContext);
+  const {onContinueClick, onSummaryClick, locations, round, guessLocation} = useContext(ChallengeContext);
   const [distance, setDistance] = useState(31415926535);
   const [stringDistance, setStringDistance] = useState(distance.toString())
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
-    console.log(guessLocation);
     let x1 = locations[round].longitude;
     let y1 = locations[round].latitude;
 
@@ -18,15 +18,28 @@ function ResultsInfo() {
 
     setDistance(calcDistance(x1, x2, y1, y2));
     setStringDistance(stringify(distance));
+
+    setScore(calcScore(distance));
+
   }, [distance, guessLocation, locations, round]);
 
   const calcDistance = (x1, x2, y1, y2) => {
-    console.log(x1, y1, x2, y2);
-    return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) * 16;
+    return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) * 32;
   };
 
+  const calcScore = (distance) => {
+    if (distance <= 20) {
+      return 5000;
+    }
+
+    if (distance >= 1000) {
+      return 0;
+    }
+
+    return (5000 - distance * 5).toFixed(0);
+  }
+
   const stringify = (distance) => {
-    console.log("distance: " + distance);
     return (distance >= 1000) ? (distance / 1000).toFixed(2).toString() + " km" : distance.toFixed(2).toString() + " m"
   };
 
@@ -34,15 +47,14 @@ function ResultsInfo() {
     round < 4 ? (
       <button onClick={onContinueClick}>Play Next Round</button>
     ) : (
-      <button onClick={onNewGameClick}>Play New Game</button>
+      <button onClick={onSummaryClick}>View Summary</button>
     );
 
   return (
     <div className="results-info">
-      <p>this is the info area</p>
-      <p>the round score will go here</p>
+      <strong>{score} points</strong>
       <p>
-        Your guess was about {stringDistance} from the correct location.
+        Your guess was about <strong>{stringDistance}</strong> from the correct location.
       </p>
 
       {button}
