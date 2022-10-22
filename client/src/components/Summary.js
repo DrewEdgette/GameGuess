@@ -1,14 +1,14 @@
 import React from "react";
-import SummaryMap from "./SummaryMap";
 import { useContext } from "react";
 import { ChallengeContext } from "../contexts/ChallengeContext";
+import ResultsMap from "./ResultsMap";
 
 function Summary() {
   const { onNewGameClick, totalScore } = useContext(ChallengeContext);
   return (
     <>
       <div className="results-info">
-        <SummaryMap></SummaryMap>
+        <ResultsMap></ResultsMap>
         <strong>{totalScore} Points</strong>
       </div>
       <button onClick={onNewGameClick}>Start New Game</button>

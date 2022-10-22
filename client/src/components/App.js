@@ -7,7 +7,6 @@ import L from "leaflet";
 import { useEffect, useState } from "react";
 import { ChallengeContext } from "../contexts/ChallengeContext";
 
-
 function App() {
   const ORIGIN = new L.LatLng(0, 0);
   const [mode, setMode] = useState("start");
@@ -39,10 +38,10 @@ function App() {
     setGuessLocation(ORIGIN);
   };
 
-    const onSummaryClick = () => {
+  const onSummaryClick = () => {
+    setRound(round + 1);
     setMode("summary");
   };
-
 
   useEffect(() => {
     fetchLocations();
@@ -65,7 +64,7 @@ function App() {
           onNewGameClick,
           onSummaryClick,
           guessList,
-          setGuessList
+          setGuessList,
         }}
       >
         {mode === "start" && <Start setMode={setMode}></Start>}

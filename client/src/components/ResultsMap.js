@@ -5,7 +5,8 @@ import { useContext } from "react";
 import { ChallengeContext } from "../contexts/ChallengeContext";
 
 function ResultsMap() {
-  const {locations, guessLocation, round} = useContext(ChallengeContext);
+  const { locations, guessList, guessLocation, round } =
+    useContext(ChallengeContext);
 
   const guessIcon = new L.Icon({
     iconUrl: require("../images/skycon.png"),
@@ -18,6 +19,8 @@ function ResultsMap() {
     iconAnchor: new L.Point(14, 50),
     iconSize: new L.Point(28, 60),
   });
+
+  const colors = ["red", "orange", "yellow", "green", "blue"];
 
   return (
     <div className="results-map">
@@ -37,7 +40,7 @@ function ResultsMap() {
           url="https://tiles.modmapper.com/{z}/{x}/{y}.jpg"
         />
 
-        {locations && guessLocation ? (
+        {round < 5 ? (
           <>
             <Marker
               icon={answerIcon}
@@ -45,10 +48,52 @@ function ResultsMap() {
             ></Marker>
 
             <Marker icon={guessIcon} position={guessLocation}></Marker>
-          </>
-        ) : null}
 
-        <Polyline color="white" dashOffset="20" weight={2.5} dashArray={"10,10"} positions={[[locations[round].latitude, locations[round].longitude], guessLocation]}/>
+            <Polyline
+              color="white"
+              dashOffset="20"
+              weight={2.5}
+              dashArray={"10,10"}
+              positions={[
+                [locations[round].latitude, locations[round].longitude],
+                guessLocation,
+              ]}
+            />
+          </>
+        ) : (
+          guessList.map((guessLocation, index) => {
+            return (
+              <>
+                <Marker icon={guessIcon} position={guessLocation}></Marker>
+
+                <Marker
+                  icon={
+                    new L.Icon({
+                      iconUrl: require(`../images/round${index + 1}.png`),
+                      iconAnchor: new L.Point(14, 50),
+                      iconSize: new L.Point(28, 60),
+                    })
+                  }
+                  position={[
+                    locations[index].latitude,
+                    locations[index].longitude,
+                  ]}
+                ></Marker>
+
+                <Polyline
+                  color={colors[index]}
+                  dashOffset="20"
+                  weight={2.5}
+                  dashArray={"10,10"}
+                  positions={[
+                    [locations[index].latitude, locations[index].longitude],
+                    guessLocation,
+                  ]}
+                />
+              </>
+            );
+          })
+        )}
       </MapContainer>
     </div>
   );
