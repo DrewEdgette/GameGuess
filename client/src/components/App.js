@@ -12,7 +12,6 @@ function App() {
 
         <Route path="challenge">
           <Route path=":id" element={<Challenge></Challenge>} />
-          {/* <Route path="random" element={<Challenge></Challenge>} /> */}
         </Route>
 
         <Route path="all" element={<All></All>} />

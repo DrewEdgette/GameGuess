@@ -38,6 +38,16 @@ app.get("/random", (req, res) => {
   );
 });
 
+app.get("/all", (req, res) => {
+    db.query("SELECT * FROM locations", (error, result) => {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send(result);
+      }
+    });
+  });
+
 app.get("/:id", (req, res) => {
   const id = req.params.id;
 
@@ -58,15 +68,6 @@ app.get("/:id", (req, res) => {
   );
 });
 
-app.get("/all", (req, res) => {
-  db.query("SELECT * FROM locations", (error, result) => {
-    if (error) {
-      console.log(error);
-    } else {
-      res.send(result);
-    }
-  });
-});
 
 app.listen(8000, () => {
   console.log("server running on port 8000");
