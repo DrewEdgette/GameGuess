@@ -154,3 +154,15 @@ select {
   height: 10vh;
   z-index: 99;
 }
+
+
+.small-pannellum {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 400;
+    width: 500px;
+    height: 400px;
+    text-align: center;
+    background-color:red;
+}

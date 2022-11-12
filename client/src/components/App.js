@@ -2,6 +2,7 @@ import "../css/index.css";
 import Challenge from "./Challenge";
 import Home from "./Home";
 import All from "./All";
+import Create from "./Create";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
         </Route>
 
         <Route path="all" element={<All></All>} />
+
+        <Route path="create" element={<Create></Create>} />
       </Routes>
     </BrowserRouter>
   );

@@ -3,12 +3,13 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
 import AllMapEvents from "./AllMapEvents";
 
-function AllMap({ locations }) {
+function AllMap({ locations, setCurrentLocation }) {
   const answerIcon = new L.Icon({
     iconUrl: require("../images/questcon.png"),
     iconAnchor: new L.Point(14, 50),
     iconSize: new L.Point(28, 60),
   });
+
 
   return (
     <div className="results-map">
@@ -34,6 +35,7 @@ function AllMap({ locations }) {
               key={index}
               icon={answerIcon}
               position={[location.latitude, location.longitude]}
+              eventHandlers={{ click: () => setCurrentLocation(location) }}
             ></Marker>
           );
         })}

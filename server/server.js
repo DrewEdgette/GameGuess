@@ -2,9 +2,11 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 const app = express();
+const bodyParser = require("body-parser");
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = mysql.createConnection({
   user: "root",
@@ -39,14 +41,54 @@ app.get("/random", (req, res) => {
 });
 
 app.get("/all", (req, res) => {
-    db.query("SELECT * FROM locations", (error, result) => {
+  db.query("SELECT * FROM locations", (error, result) => {
+    if (error) {
+      console.log(error);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.post("/create", (req, res) => {
+  const uniqueID = req.body.uniqueID;
+  const ids = req.body.ids;
+
+  db.query(
+    "INSERT INTO challenges (id) VALUES (?)",
+    [uniqueID],
+    (error, result) => {
       if (error) {
         console.log(error);
+      }
+    }
+  );
+
+  ids.forEach((id) => {
+    db.query(
+      "INSERT INTO challenge_locations (id, challenge_id, location_id) VALUES (uuid(), ?, ?)",
+      [uniqueID, id]
+    );
+  });
+});
+
+app.get("/check/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+
+  db.query("SELECT * FROM challenges WHERE id = ?", [id], (error, result) => {
+    if (error) {
+      res.send(error);
+    } else {
+      if (result.length === 0) {
+        console.log("challenge id not found");
+        res.send([]);
       } else {
         res.send(result);
       }
-    });
+    }
   });
+});
 
 app.get("/:id", (req, res) => {
   const id = req.params.id;
@@ -68,6 +110,24 @@ app.get("/:id", (req, res) => {
   );
 });
 
+// app.post("/create", (req, res) => {
+//   // const uniqueID = req.body.uniqueID;
+//   // const ids = req.body.ids;
+
+//   db.query("select * from locations", (error, result) => {
+//     if (error) {
+//       console.log(error);
+//     } else {
+//       console.log("challenge created");
+//       res.send(result);
+//     }
+//   });
+
+//   ids.forEach(id => {
+//     db.query("INSERT INTO challenge_locations (id, challenge_id, location_id) VALUES (uuid(), ?, ?)", [uniqueID, id])
+//   });
+
+// });
 
 app.listen(8000, () => {
   console.log("server running on port 8000");
