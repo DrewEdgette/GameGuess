@@ -86,7 +86,6 @@ app.post("/create", (req, res) => {
 
 app.get("/check/:id", (req, res) => {
   const id = req.params.id;
-  console.log(id);
 
   db.query("SELECT * FROM challenges WHERE id = ?", [id], (error, result) => {
     if (error) {
@@ -94,7 +93,7 @@ app.get("/check/:id", (req, res) => {
     } else {
       if (result.length === 0) {
         console.log("challenge id not found");
-        res.send([]);
+        res.send({});
       } else {
         res.send(result);
       }
@@ -113,7 +112,7 @@ app.get("/:id", (req, res) => {
         console.log(error);
       } else {
         if (result.length === 0) {
-          console.log("challenge id not found");
+          //console.log("challenge id not found");
         } else {
           res.send(result);
         }
@@ -122,24 +121,7 @@ app.get("/:id", (req, res) => {
   );
 });
 
-// app.post("/create", (req, res) => {
-//   // const uniqueID = req.body.uniqueID;
-//   // const ids = req.body.ids;
 
-//   db.query("select * from locations", (error, result) => {
-//     if (error) {
-//       console.log(error);
-//     } else {
-//       console.log("challenge created");
-//       res.send(result);
-//     }
-//   });
-
-//   ids.forEach(id => {
-//     db.query("INSERT INTO challenge_locations (id, challenge_id, location_id) VALUES (uuid(), ?, ?)", [uniqueID, id])
-//   });
-
-// });
 
 app.listen(8000, () => {
   console.log("server running on port 8000");

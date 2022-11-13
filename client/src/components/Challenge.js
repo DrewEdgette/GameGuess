@@ -15,8 +15,16 @@ function Challenge() {
   const [guessLocation, setGuessLocation] = useState(ORIGIN);
   const [guessList, setGuessList] = useState([]);
   const [totalScore, setTotalScore] = useState(0);
+  const [challengeInfo, setChallengeInfo] = useState(null);
 
   const { id } = useParams();
+
+  const fetchChallengeInfo = async () => {
+    const response = await fetch(`http://localhost:8000/check/${id}`);
+    const json = await response.json();
+
+    setChallengeInfo(json[0]);
+  };
 
   const fetchLocations = async () => {
     const response = await fetch(`http://localhost:8000/${id}`);
@@ -47,6 +55,7 @@ function Challenge() {
 
   useEffect(() => {
     fetchLocations();
+    fetchChallengeInfo();
   }, []);
 
   return (
@@ -69,7 +78,9 @@ function Challenge() {
           setGuessList,
         }}
       >
-        {mode === "start" && <Start setMode={setMode}></Start>}
+        {mode === "start" &&   (
+          <Start setMode={setMode} challengeInfo={challengeInfo}></Start>
+        )}
 
         {mode === "play" && <Play></Play>}
 
