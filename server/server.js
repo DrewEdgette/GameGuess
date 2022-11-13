@@ -93,7 +93,7 @@ app.get("/check/:id", (req, res) => {
     } else {
       if (result.length === 0) {
         console.log("challenge id not found");
-        res.send({});
+        res.send([]);
       } else {
         res.send(result);
       }

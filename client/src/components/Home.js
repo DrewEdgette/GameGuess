@@ -19,10 +19,6 @@ function Home() {
           <li>
             <Link to="challenge/random">Random Challenge</Link>
           </li>
-
-          <li>
-            <Link to="challenge/MTc2MDVmYzQt">uuid test Challenge</Link>
-          </li>
         </ul>
       </nav>
     </div>

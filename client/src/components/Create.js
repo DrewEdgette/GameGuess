@@ -51,8 +51,6 @@ function Create() {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-
-      //make sure to serialize your JSON body
       body: JSON.stringify({
         uniqueID: uniqueID,
         ids: locationList.map(location => location.id),

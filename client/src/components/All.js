@@ -29,7 +29,7 @@ function All() {
     <div className="results-info">
       <AllMap locations={locations}></AllMap>
       <strong>All Challenges</strong>
-      {challenges.map(challenge => {return (<div>http://localhost:3000/challenge/{challenge.id} <br/></div>)})}
+      {challenges.map(challenge => {return (<div>http://localhost:3000/challenge/{challenge.id} {challenge.name}<br/></div>)})}
     </div>
   );
 }

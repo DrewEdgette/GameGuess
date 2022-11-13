@@ -11,7 +11,7 @@ function Summary() {
         <ResultsMap></ResultsMap>
         <strong>{totalScore} Points</strong>
       </div>
-      <button onClick={onNewGameClick}>Start New Game</button>
+      <button onClick={onNewGameClick}>Play Again</button>
     </>
   );
 }
