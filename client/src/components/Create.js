@@ -24,9 +24,17 @@ function Create() {
     return window.btoa(unescape(encodeURIComponent(str))).slice(0, 12);
   };
 
-  const createChallenge = async () => {
+  const createChallenge = async (event) => {
+    event.preventDefault();
+
+    const mapName = event.target.mapname.value;
+    const description = event.target.description.value;
+
+    console.log(mapName);
+    console.log(description);
+
     let check = [];
-    let uniqueID = utf8_to_b64(uuid());
+    let uniqueID;
 
     while (true) {
       uniqueID = utf8_to_b64(uuid());
@@ -48,6 +56,8 @@ function Create() {
       body: JSON.stringify({
         uniqueID: uniqueID,
         ids: locationList.map(location => location.id),
+        mapName: mapName,
+        description: description,
       }),
     })
   };
@@ -89,7 +99,6 @@ function Create() {
           Remove Location
         </button>
 
-        <button onClick={createChallenge}>Create Challenge</button>
       </div>
       locationList:{" "}
       {locationList
@@ -100,7 +109,7 @@ function Create() {
         <input type="text" id="mapname" name="mapname" />
         <label htmlFor="lname">Description:</label>
         <input type="text" id="description" name="description" />
-        <input type="submit" value="Submit" />
+        {locationList.length === 5 ? <input type="submit" value="Create Challenge" /> : null}
       </form>
     </div>
   );

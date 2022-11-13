@@ -50,13 +50,25 @@ app.get("/all", (req, res) => {
   });
 });
 
+app.get("/challenges", (req, res) => {
+  db.query("SELECT * FROM challenges", (error, result) => {
+    if (error) {
+      console.log(error);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 app.post("/create", (req, res) => {
   const uniqueID = req.body.uniqueID;
+  const mapName = req.body.mapName;
+  const description = req.body.description;
   const ids = req.body.ids;
 
   db.query(
-    "INSERT INTO challenges (id) VALUES (?)",
-    [uniqueID],
+    "INSERT INTO challenges (id, name, description) VALUES (?, ?, ?)",
+    [uniqueID, mapName, description],
     (error, result) => {
       if (error) {
         console.log(error);
