@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import {
   Button,
   FormControl,
+  FormControlLabel,
   InputLabel,
   OutlinedInput,
+  Checkbox,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NavBar from "./NavBar";
@@ -19,25 +21,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 function SignUpPage() {
   const classes = useStyles();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  function handleUsernameChange(event) {
+  const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   }
 
-  function handlePasswordChange(event) {
+  const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   }
 
-  function handleConfirmPasswordChange(event) {
+  const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
   }
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const validateUsername = (username) => {
     return true;
@@ -47,7 +53,7 @@ function SignUpPage() {
     return true;
   };
 
-  async function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Validate the form inputs
@@ -80,53 +86,63 @@ function SignUpPage() {
   return (
     <div>
       <NavBar></NavBar>
-    <div className={classes.root}>
-      <form onSubmit={handleSubmit}>
-        <FormControl fullWidth variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-username">
-            Username
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-username"
-            type="text"
-            value={username}
-            onChange={handleUsernameChange}
-            labelWidth={70}
-          />
-        </FormControl>
-        <br />
-        <FormControl fullWidth variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">
-            Password
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            labelWidth={70}
-          />
-        </FormControl>
-        <br />
-        <FormControl fullWidth variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">
-            Confirm Password
-          </InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type="password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            labelWidth={70}
-          />
-        </FormControl>
-        
-        <br />
-        <Button variant="contained" color="primary" type="submit">
-          Create Account
-        </Button>
-      </form>
-    </div>
+      <div className={classes.root}>
+        <form onSubmit={handleSubmit}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-username">
+              Username
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-username"
+              type="text"
+              value={username}
+              onChange={handleUsernameChange}
+              labelWidth={70}
+            />
+          </FormControl>
+          <br />
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={handlePasswordChange}
+              labelWidth={70}
+            />
+          </FormControl>
+          <br />
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              Confirm Password
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+              labelWidth={70}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showPassword}
+                  onChange={handleClickShowPassword}
+                  color="primary"
+                />
+              }
+              label="Show password"
+            />
+          </FormControl>
+
+          <br />
+          <Button variant="contained" color="primary" type="submit">
+            Create Account
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

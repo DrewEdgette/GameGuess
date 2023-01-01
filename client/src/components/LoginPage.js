@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import {
   Button,
   FormControl,
+  FormControlLabel,
   InputLabel,
   OutlinedInput,
+  Checkbox,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NavBar from "./NavBar";
@@ -24,6 +26,11 @@ function LoginPage() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -91,19 +98,35 @@ function LoginPage() {
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={handlePasswordChange}
               labelWidth={70}
             />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={showPassword}
+                  onChange={handleClickShowPassword}
+                  color="primary"
+                />
+              }
+              label="Show password"
+            />
           </FormControl>
           <br />
           <Button variant="contained" color="primary" type="submit">
-            Log in
+            Sign in
           </Button>
         </form>
 
-        <a href="/signup">Create account</a>
+        <p>
+          Don't have an account?
+          <br></br>
+          <Button href="/signup" variant="contained" color="secondary" type="submit">
+            Create Account
+          </Button>
+        </p>
       </div>
     </div>
   );

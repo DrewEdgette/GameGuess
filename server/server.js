@@ -31,33 +31,46 @@ const db = mysql.createConnection({
 app.post("/signup", (req, res) => {
   const { username, password } = req.body;
 
-  // TODO: sanitize the inputs to prevent SQL injection attacks
+  // Sanitize the inputs
+  const sanitizedUsername = mysql.escape(username);
+  const sanitizedPassword = mysql.escape(password);
 
   // Hash the password
   const hashedPassword = crypto
     .createHash("sha256")
-    .update(password)
+    .update(sanitizedPassword)
     .digest("hex");
 
-  // Insert the new user into the database
-  const query = `
-    INSERT INTO users (id, username, password)
-    VALUES (uuid(), ?, ?)
-  `;
-  db.query(query, [username, hashedPassword], (error, results) => {
+  // Check if the username is already taken
+  const checkUsernameQuery = `SELECT * FROM users WHERE username = ${sanitizedUsername}`;
+  db.query(checkUsernameQuery, (error, results) => {
     if (error) {
       // TODO: handle the error
-      console.log("something went wrong");
       return;
     }
-    res.json({ success: true });
+    if (results.length > 0) {
+      // The username is already taken, so return an error
+      res.json({ success: false, message: "Username already taken" });
+    } else {
+      // The username is available, so create the user
+      const createUserQuery = `
+        INSERT INTO users (username, password)
+        VALUES (${sanitizedUsername}, ${hashedPassword})
+      `;
+      db.query(createUserQuery, (error, results) => {
+        if (error) {
+          // TODO: handle the error
+          return;
+        }
+        res.json({ success: true });
+      });
+    }
   });
 });
 
 app.post("/login", (req, res) => {
-  const { username, password } = req.body;
-
-  // TODO: sanitize the inputs to prevent SQL injection attacks
+  const username = mysql.escape(req.body.username);
+  const password = mysql.escape(req.body.password);
 
   // Hash the password
   const hashedPassword = crypto
@@ -67,9 +80,9 @@ app.post("/login", (req, res) => {
 
   // Check if the username and password are correct
   const query = `
-    SELECT * FROM users
-    WHERE username = ? AND password = ?
-  `;
+  SELECT * FROM users
+  WHERE username = ${username} AND password = ${password}
+`;
   db.query(query, [username, hashedPassword], (error, results) => {
     if (error) {
       // TODO: handle the error
