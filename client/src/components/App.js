@@ -3,6 +3,8 @@ import Challenge from "./Challenge";
 import Home from "./Home";
 import All from "./All";
 import Create from "./Create";
+import LoginPage from "./LoginPage";
+import SignUpPage from "./SignUpPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -18,6 +20,10 @@ function App() {
         <Route path="all" element={<All></All>} />
 
         <Route path="create" element={<Create></Create>} />
+
+        <Route path="signup" element={<SignUpPage></SignUpPage>} />
+
+        <Route path="login" element={<LoginPage></LoginPage>} />
       </Routes>
     </BrowserRouter>
   );

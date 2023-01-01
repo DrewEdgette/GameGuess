@@ -3,6 +3,7 @@ const mysql = require("mysql");
 const cors = require("cors");
 const app = express();
 const bodyParser = require("body-parser");
+const crypto = require("crypto");
 
 app.use(cors());
 app.use(express.json());
@@ -26,6 +27,65 @@ const db = mysql.createConnection({
 
 //     })
 // });
+
+app.post("/signup", (req, res) => {
+  const { username, password } = req.body;
+
+  // TODO: sanitize the inputs to prevent SQL injection attacks
+
+  // Hash the password
+  const hashedPassword = crypto
+    .createHash("sha256")
+    .update(password)
+    .digest("hex");
+
+  // Insert the new user into the database
+  const query = `
+    INSERT INTO users (id, username, password)
+    VALUES (uuid(), ?, ?)
+  `;
+  db.query(query, [username, hashedPassword], (error, results) => {
+    if (error) {
+      // TODO: handle the error
+      console.log("something went wrong");
+      return;
+    }
+    res.json({ success: true });
+  });
+});
+
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  // TODO: sanitize the inputs to prevent SQL injection attacks
+
+  // Hash the password
+  const hashedPassword = crypto
+    .createHash("sha256")
+    .update(password)
+    .digest("hex");
+
+  // Check if the username and password are correct
+  const query = `
+    SELECT * FROM users
+    WHERE username = ? AND password = ?
+  `;
+  db.query(query, [username, hashedPassword], (error, results) => {
+    if (error) {
+      // TODO: handle the error
+      return;
+    }
+    if (results.length > 0) {
+      // The username and password are correct, so log the user in
+      // req.session.user = results[0];
+      console.log("success");
+      res.json({ success: true });
+    } else {
+      // The username and password are incorrect, so return an error
+      res.json({ success: false, message: "Incorrect username or password" });
+    }
+  });
+});
 
 app.get("/random", (req, res) => {
   db.query(
@@ -120,8 +180,6 @@ app.get("/:id", (req, res) => {
     }
   );
 });
-
-
 
 app.listen(8000, () => {
   console.log("server running on port 8000");
