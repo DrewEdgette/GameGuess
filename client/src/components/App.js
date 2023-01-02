@@ -5,6 +5,7 @@ import All from "./All";
 import Create from "./Create";
 import LoginPage from "./LoginPage";
 import SignUpPage from "./SignUpPage";
+import Account from "./Account";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -12,6 +13,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home></Home>} />
+
+        <Route path="account" element={<Account></Account>} />
 
         <Route path="challenge">
           <Route path=":id" element={<Challenge></Challenge>} />

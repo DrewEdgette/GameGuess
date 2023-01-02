@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { LoginContext } from "../contexts/LoginContext";
 import {
   Button,
   FormControl,
@@ -9,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NavBar from "./NavBar";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,11 +24,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function LoginPage() {
+  const { login, setLoginName } = useContext(LoginContext);
+
   const classes = useStyles();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -65,7 +71,10 @@ function LoginPage() {
       });
       const result = await response.json();
       if (result.success) {
+        login();
+        setLoginName(username);
         console.log("log in successfull");
+        navigate("/");
       } else {
         // TODO: display an error message
       }

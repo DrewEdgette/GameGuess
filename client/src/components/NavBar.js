@@ -5,6 +5,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { useContext } from "react";
+import { LoginContext } from "../contexts/LoginContext";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -27,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NavBar() {
+  const { isLoggedIn, loginName } = useContext(LoginContext);
+
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -41,9 +45,17 @@ function NavBar() {
             Skyrim Guesser
           </Typography>
 
-          <Button className={classes.button} component={Link} to="/login">
+          {isLoggedIn ? (
+            <Button className={classes.button} component={Link} to="/account">
+            {loginName}
+          </Button>
+          ) : (
+            <Button className={classes.button} component={Link} to="/login">
             Sign in
           </Button>
+          )}
+
+
         </Toolbar>
       </AppBar>
     </div>

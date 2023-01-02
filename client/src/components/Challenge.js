@@ -3,9 +3,11 @@ import Play from "./Play";
 import Results from "./Results";
 import Summary from "./Summary";
 import L from "leaflet";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { ChallengeContext } from "../contexts/ChallengeContext";
 import { useParams } from "react-router-dom";
+import { LoginContext } from "../contexts/LoginContext";
+import { useNavigate } from 'react-router-dom';
 
 function Challenge() {
   const ORIGIN = new L.LatLng(0, 0);
@@ -18,6 +20,9 @@ function Challenge() {
   const [challengeInfo, setChallengeInfo] = useState(null);
 
   const { id } = useParams();
+
+  const { isLoggedIn } = useContext(LoginContext);
+  const navigate = useNavigate();
 
   const fetchChallengeInfo = async () => {
     const response = await fetch(`http://localhost:8000/check/${id}`);
@@ -54,9 +59,13 @@ function Challenge() {
   };
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+
     fetchLocations();
     fetchChallengeInfo();
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <div>
@@ -78,15 +87,15 @@ function Challenge() {
           setGuessList,
         }}
       >
-        {mode === "start" &&   (
-          <Start setMode={setMode} challengeInfo={challengeInfo}></Start>
-        )}
+          {mode === "start" && (
+            <Start setMode={setMode} challengeInfo={challengeInfo}></Start>
+          )}
 
-        {mode === "play" && <Play></Play>}
+          {mode === "play" && <Play></Play>}
 
-        {mode === "results" && <Results></Results>}
+          {mode === "results" && <Results></Results>}
 
-        {mode === "summary" && <Summary></Summary>}
+          {mode === "summary" && <Summary></Summary>}
       </ChallengeContext.Provider>
     </div>
   );

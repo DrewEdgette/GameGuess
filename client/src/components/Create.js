@@ -1,17 +1,26 @@
 import React from "react";
 import AllMap from "./AllMap";
 import SmallPannellum from "./SmallPannellum";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { v4 as uuid } from "uuid";
+import { LoginContext } from "../contexts/LoginContext";
+import { useNavigate } from 'react-router-dom';
 
 function Create() {
   const [locations, setLocations] = useState([]);
   const [currentLocation, setCurrentLocation] = useState("");
   const [locationList, setLocationList] = useState([]);
 
+  const { isLoggedIn } = useContext(LoginContext);
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+
     fetchAllLocations();
-  }, []);
+  }, [isLoggedIn]);
 
   const fetchAllLocations = async () => {
     const response = await fetch("http://localhost:8000/all");

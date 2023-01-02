@@ -16,6 +16,79 @@ const db = mysql.createConnection({
   database: "skyrim",
 });
 
+app.post("/signup", (req, res) => {
+  const { username, password } = req.body;
+
+  // Hash the password
+  const hashedPassword = crypto
+    .createHash("sha256")
+    .update(password)
+    .digest("hex");
+
+  // Check if the username is already taken
+  const checkUsernameQuery = `SELECT * FROM users WHERE username = '${username}'`;
+  db.query(checkUsernameQuery, (error, results) => {
+    if (error) {
+      console.log("check username error");
+      return;
+    }
+    if (results.length > 0) {
+      // The username is already taken, so return an error
+      console.log("username taken");
+      res.json({ success: false, message: "Username already taken" });
+    } else {
+      // The username is available, so create the user
+      const createUserQuery = `
+        INSERT INTO users (id, username, password)
+        VALUES (uuid(), '${username}', '${hashedPassword}')
+      `;
+      db.query(createUserQuery, (error, results) => {
+        if (error) {
+          // TODO: handle the error
+          console.log("create user error");
+          return;
+        }
+        console.log("success");
+        res.json({ success: true });
+      });
+    }
+  });
+});
+
+
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  // Hash the password
+  const hashedPassword = crypto
+    .createHash("sha256")
+    .update(password)
+    .digest("hex");
+
+  // Check if the username and password are correct
+  const query = `
+  SELECT * FROM users
+  WHERE username = '${username}' AND password = '${hashedPassword}'
+`;
+  db.query(query, [username, hashedPassword], (error, results) => {
+    if (error) {
+      console.log("error");
+      return;
+    }
+    if (results.length > 0) {
+      // The username and password are correct, so log the user in
+      // req.session.user = results[0];
+      console.log("success");
+      res.json({ success: true });
+    } else {
+      console.log("wrong username or password");
+      // The username and password are incorrect, so return an error
+      res.json({ success: false, message: "Incorrect username or password" });
+    }
+  });
+});
+
+
 // // for testing the most recent locations
 // app.get("/random", (req, res) => {
 //     db.query("SELECT * FROM locations order by id desc limit 5", (error, result) => {
@@ -28,81 +101,9 @@ const db = mysql.createConnection({
 //     })
 // });
 
-app.post("/signup", (req, res) => {
-  const { username, password } = req.body;
-
-  // Sanitize the inputs
-  const sanitizedUsername = mysql.escape(username);
-  const sanitizedPassword = mysql.escape(password);
-
-  // Hash the password
-  const hashedPassword = crypto
-    .createHash("sha256")
-    .update(sanitizedPassword)
-    .digest("hex");
-
-  // Check if the username is already taken
-  const checkUsernameQuery = `SELECT * FROM users WHERE username = ${sanitizedUsername}`;
-  db.query(checkUsernameQuery, (error, results) => {
-    if (error) {
-      // TODO: handle the error
-      return;
-    }
-    if (results.length > 0) {
-      // The username is already taken, so return an error
-      res.json({ success: false, message: "Username already taken" });
-    } else {
-      // The username is available, so create the user
-      const createUserQuery = `
-        INSERT INTO users (username, password)
-        VALUES (${sanitizedUsername}, ${hashedPassword})
-      `;
-      db.query(createUserQuery, (error, results) => {
-        if (error) {
-          // TODO: handle the error
-          return;
-        }
-        res.json({ success: true });
-      });
-    }
-  });
-});
-
-app.post("/login", (req, res) => {
-  const username = mysql.escape(req.body.username);
-  const password = mysql.escape(req.body.password);
-
-  // Hash the password
-  const hashedPassword = crypto
-    .createHash("sha256")
-    .update(password)
-    .digest("hex");
-
-  // Check if the username and password are correct
-  const query = `
-  SELECT * FROM users
-  WHERE username = ${username} AND password = ${password}
-`;
-  db.query(query, [username, hashedPassword], (error, results) => {
-    if (error) {
-      // TODO: handle the error
-      return;
-    }
-    if (results.length > 0) {
-      // The username and password are correct, so log the user in
-      // req.session.user = results[0];
-      console.log("success");
-      res.json({ success: true });
-    } else {
-      // The username and password are incorrect, so return an error
-      res.json({ success: false, message: "Incorrect username or password" });
-    }
-  });
-});
-
 app.get("/random", (req, res) => {
   db.query(
-    "SELECT * FROM locations order by RAND() LIMIT 5;",
+    "SELECT * FROM locations ORDER BY RAND() LIMIT 5;",
     (error, result) => {
       if (error) {
         console.log(error);
