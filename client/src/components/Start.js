@@ -1,9 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { Card, CardContent } from "@material-ui/core";
 import NavBar from "./NavBar";
+import ChallengeCard from "./ChallengeCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,32 +41,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Start({ setMode, challengeInfo }) {
+function Start({ challengeInfo }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-
       <NavBar></NavBar>
 
       {challengeInfo ? (
         <div className={classes.cardsContainer}>
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {challengeInfo.name}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {challengeInfo.description}
-              </Typography>
-              <Button
-                className={classes.button}
-                onClick={() => setMode("play")}
-              >
-                Play
-              </Button>
-            </CardContent>
-          </Card>
+          <ChallengeCard
+            classes={classes}
+            challengeInfo={challengeInfo}
+          ></ChallengeCard>
         </div>
       ) : (
         <p>challenge not found</p>

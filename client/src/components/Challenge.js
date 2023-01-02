@@ -17,11 +17,11 @@ function Challenge() {
   const [guessLocation, setGuessLocation] = useState(ORIGIN);
   const [guessList, setGuessList] = useState([]);
   const [totalScore, setTotalScore] = useState(0);
-  const [challengeInfo, setChallengeInfo] = useState(null);
+  const [challengeInfo, setChallengeInfo] = useState({});
 
   const { id } = useParams();
 
-  const { isLoggedIn, redirect, setRedirect } = useContext(LoginContext);
+  const { isLoggedIn } = useContext(LoginContext);
   const navigate = useNavigate();
 
   const fetchChallengeInfo = async () => {
@@ -34,6 +34,11 @@ function Challenge() {
   const fetchLocations = async () => {
     const response = await fetch(`http://localhost:8000/${id}`);
     const locationList = await response.json();
+
+    // update challengeInfo with the url of the first element in locationList
+  setChallengeInfo(prevChallengeInfo => ({
+    ...prevChallengeInfo,
+    url: locationList[0].url}));
 
     setLocations(locationList);
   };
@@ -62,9 +67,8 @@ function Challenge() {
     if (!isLoggedIn) {
       navigate("/login");
     }
-
-    fetchLocations();
     fetchChallengeInfo();
+    fetchLocations();
   }, [isLoggedIn]);
 
   return (
