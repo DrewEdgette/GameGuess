@@ -134,6 +134,8 @@ app.get("/challenges", (req, res) => {
   });
 });
 
+
+
 app.post("/create", (req, res) => {
   const uniqueID = req.body.uniqueID;
   const mapName = req.body.mapName;
@@ -174,6 +176,56 @@ app.get("/check/:id", (req, res) => {
     }
   });
 });
+
+
+
+app.get("/challenges/:id", (req, res) => {
+  const id = req.params.id;
+
+  const query = `SELECT c.*, l.url
+  FROM challenges c
+  JOIN (
+    SELECT challenge_id, MIN(id) AS min_id
+    FROM challenge_locations
+    GROUP BY challenge_id
+  ) cl ON cl.challenge_id = c.id
+  JOIN challenge_locations cl2 ON cl2.challenge_id = cl.challenge_id AND cl2.id = cl.min_id
+  JOIN locations l ON l.id = cl2.location_id
+  WHERE c.creator_id = ?;`
+
+  db.query(query, [id], (error, result) => {
+    if (error) {
+      res.send(error);
+    } else {
+      if (result.length === 0) {
+        console.log("creator id not found or they haven't made any challenges");
+        res.send([]);
+      } else {
+        res.send(result);
+      }
+    }
+  });
+});
+
+
+app.get("/getfirstthumbnail/:id", (req, res) => {
+  const id = req.params.id;
+
+  db.query("SELECT * FROM locations JOIN challenge_locations ON challenge_locations.location_id = locations.id WHERE challenge_locations.challenge_id = ? limit 1", [id], (error, result) => {
+    if (error) {
+      alert("error")
+      res.send(error);
+    } else {
+      if (result.length === 0) {
+        console.log("challenge id not found");
+        res.send([]);
+      } else {
+        res.send(result);
+      }
+    }
+  });
+});
+
 
 app.get("/:id", (req, res) => {
   const id = req.params.id;

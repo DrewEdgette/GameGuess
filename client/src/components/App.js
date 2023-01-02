@@ -6,6 +6,7 @@ import Create from "./Create";
 import LoginPage from "./LoginPage";
 import SignUpPage from "./SignUpPage";
 import Account from "./Account";
+import MyChallenges from "./MyChallenges";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -14,7 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home></Home>} />
 
-        <Route path="account" element={<Account></Account>} />
+        <Route path="account" element={<Account></Account>}/>
+        <Route path="mychallenges" element={<MyChallenges></MyChallenges>}/>
 
         <Route path="challenge">
           <Route path=":id" element={<Challenge></Challenge>} />

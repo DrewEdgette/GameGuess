@@ -74,7 +74,7 @@ function LoginPage() {
         login();
         setLoginName(username);
         console.log("log in successfull");
-        navigate("/");
+        navigate("/")
       } else {
         // TODO: display an error message
       }

@@ -21,7 +21,7 @@ function Challenge() {
 
   const { id } = useParams();
 
-  const { isLoggedIn } = useContext(LoginContext);
+  const { isLoggedIn, redirect, setRedirect } = useContext(LoginContext);
   const navigate = useNavigate();
 
   const fetchChallengeInfo = async () => {
