@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { ChallengeContext } from "../contexts/ChallengeContext";
 
-function ChallengeCard({ challengeInfo, classes }) {
+function ChallengeCard({ challengeInfo, classes, page }) {
   const { setMode } = useContext(ChallengeContext);
 
   return (
@@ -30,31 +30,35 @@ function ChallengeCard({ challengeInfo, classes }) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <Typography gutterBottom variant="h5" component="h2">
-        <TextField
-          id="url"
-          label="URL"
-          value={window.location.href}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            navigator.clipboard.writeText(window.location.href);
-          }}
-        >
-          Copy
-        </Button>
-      </Typography>
-
-      <CardActions>
-        <Button size="small" color="primary" onClick={() => setMode("play")}>
-          Play
-        </Button>
-      </CardActions>
+      {page === "landing" && (
+        <>
+          <Typography gutterBottom variant="h5" component="h2">
+            <TextField
+              id="url"
+              label="URL"
+              value={window.location.href}
+              InputProps={{
+                readOnly: true,
+              }}
+              style={{ margin: "16px" }}
+            />
+            <Button
+              size="small"
+              color="primary"
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+              }}
+            >
+              Copy
+            </Button>
+          </Typography>
+          <CardActions>
+            <Button size="large" style={{ backgroundColor: "#4caf50", color: "white" }} onClick={() => setMode("play")}>
+              Play
+            </Button>
+          </CardActions>
+        </>
+      )}
     </Card>
   );
 }

@@ -53,6 +53,7 @@ function Start({ challengeInfo }) {
           <ChallengeCard
             classes={classes}
             challengeInfo={challengeInfo}
+            page={"landing"}
           ></ChallengeCard>
         </div>
       ) : (

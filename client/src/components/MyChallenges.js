@@ -56,7 +56,7 @@ function MyChallenges() {
 
       <div className={classes.cardsContainer}>
         {challengesInfo ? challengesInfo.map((challenge) => {
-          return (<ChallengeCard classes={classes} challengeInfo={challenge}></ChallengeCard>)
+          return (<ChallengeCard classes={classes} challengeInfo={challenge} page={"mychallenges"}></ChallengeCard>)
         }) : null}
       </div>
     </div>

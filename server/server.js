@@ -8,6 +8,8 @@ const crypto = require("crypto");
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/tiles', express.static('skyrim-images'));
+
 
 const db = mysql.createConnection({
   user: "root",
