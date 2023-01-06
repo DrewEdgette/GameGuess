@@ -28,6 +28,9 @@ function ChallengeCard({ challengeInfo, classes, page }) {
           <Typography variant="body2" color="textSecondary" component="p">
             {challengeInfo ? challengeInfo.description : "Map Description"}
           </Typography>
+          <Typography variant="h5" color="textSecondary" component="h2">
+            {challengeInfo ? challengeInfo.creator : "Creator"}
+          </Typography>
         </CardContent>
       </CardActionArea>
       {page === "landing" && (
@@ -53,7 +56,11 @@ function ChallengeCard({ challengeInfo, classes, page }) {
             </Button>
           </Typography>
           <CardActions>
-            <Button size="large" style={{ backgroundColor: "#4caf50", color: "white" }} onClick={() => setMode("play")}>
+            <Button
+              size="large"
+              style={{ backgroundColor: "#4caf50", color: "white" }}
+              onClick={() => setMode("play")}
+            >
               Play
             </Button>
           </CardActions>

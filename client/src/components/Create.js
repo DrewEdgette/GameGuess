@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from "react";
 import { v4 as uuid } from "uuid";
 import { LoginContext } from "../contexts/LoginContext";
 import { useNavigate } from 'react-router-dom';
+import { Button, FormControl, InputLabel, Input } from '@material-ui/core';
 
 function Create() {
   const [locations, setLocations] = useState([]);
@@ -80,46 +81,46 @@ function Create() {
   };
 
   return (
-    <div className="results-info">
+    <div>
       <AllMap
         locations={locations}
         setCurrentLocation={setCurrentLocation}
       ></AllMap>
       {currentLocation && <SmallPannellum image={currentLocation.url} />}
       <ul>
-        <li>id: {currentLocation.id}</li>
-
-        <li>latitude: {currentLocation.latitude}</li>
-
-        <li>longitude: {currentLocation.longitude}</li>
-
-        <li>url: {currentLocation.url}</li>
-      </ul>
-      <div>
-        <button onClick={() => addLocation(currentLocation)}>
-          Add Location
-        </button>
-        <br />
-        <br />
-
-        <button onClick={() => removeLocation(currentLocation)}>
-          Remove Location
-        </button>
-
-      </div>
-      locationList:{" "}
-      {locationList
-        ? locationList.map((location) => location.id).toString()
-        : null}
-      <form onSubmit={createChallenge}>
-        <label htmlFor="mapname">Map Name:</label>
-        <input type="text" id="mapname" name="mapname" />
-        <label htmlFor="lname">Description:</label>
-        <input type="text" id="description" name="description" />
-        {locationList.length === 5 ? <input type="submit" value="Create Challenge" /> : null}
-      </form>
-    </div>
-  );
+  <li>id: {currentLocation.id}</li>
+  <li>latitude: {currentLocation.latitude}</li>
+  <li>longitude: {currentLocation.longitude}</li>
+  <li>url: {currentLocation.url}</li>
+</ul>
+<div>
+  <Button variant="contained" color="primary" onClick={() => addLocation(currentLocation)}>
+    Add Location
+  </Button>
+  <br />
+  <br />
+  <Button variant="contained" color="secondary" onClick={() => removeLocation(currentLocation)}>
+    Remove Location
+  </Button>
+</div>
+locationList: {locationList ? locationList.map((location) => location.id).toString() : null}
+<form onSubmit={createChallenge}>
+  <FormControl>
+    <InputLabel htmlFor="mapname">Map Name:</InputLabel>
+    <Input id="mapname" name="mapname" />
+  </FormControl>
+  <FormControl>
+    <InputLabel htmlFor="lname">Description:</InputLabel>
+    <Input id="description" name="description" />
+  </FormControl>
+  {locationList.length > 0 ? (
+    <Button variant="contained" color="primary" type="submit">
+      Create Challenge
+    </Button>
+  ) : null}
+</form>
+</div>
+  )
 }
 
 export default Create;

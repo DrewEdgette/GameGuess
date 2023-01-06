@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import NavBar from "./NavBar";
 import ChallengeCard from "./ChallengeCard";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,34 +32,66 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  loadMoreButton: {
+    display: "flex",
+    justifyContent: "center",
+  },
 }));
 
 function MyChallenges() {
   const [challengesInfo, setChallengesInfo] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const classes = useStyles();
 
-  const fetchChallengesInfo = async () => {
+  const fetchChallengesInfo = async (page) => {
     const id = "5376df23-8abe-11ed-939e-00d861e59489";
-  
-    const response = await fetch(`http://localhost:8000/challenges/${id}`);
+
+    // Calculate the OFFSET value based on the current page number
+    const offset = (page - 1) * 2;
+
+    const response = await fetch(
+      `http://localhost:8000/challenges/${id}?limit=2&offset=${offset}`
+    );
     const json = await response.json();
-    
-    setChallengesInfo(json);
-  }
+
+    // Concatenate the new challenges with the existing challenges
+    setChallengesInfo(challengesInfo.concat(json.challenges));
+    setTotalPages(json.totalPages);
+  };
 
   useEffect(() => {
-    fetchChallengesInfo();
-  }, [])
+    fetchChallengesInfo(page);
+  }, [page]);
+
+  const handleLoadMore = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
 
   return (
     <div className={classes.root}>
       <NavBar></NavBar>
-
       <div className={classes.cardsContainer}>
-        {challengesInfo ? challengesInfo.map((challenge) => {
-          return (<ChallengeCard classes={classes} challengeInfo={challenge} page={"mychallenges"}></ChallengeCard>)
-        }) : null}
+        {challengesInfo.map((challenge) => {
+          return (
+            <ChallengeCard
+              classes={classes}
+              challengeInfo={challenge}
+              page={"mychallenges"}
+            ></ChallengeCard>
+          );
+        })}
       </div>
+
+      {page < totalPages ? (
+        <div className={classes.loadMoreButton}>
+          <Button variant="contained" onClick={handleLoadMore} color="primary">
+            Load more...
+          </Button>
+        </div>
+      ) : null}
     </div>
   );
 }
