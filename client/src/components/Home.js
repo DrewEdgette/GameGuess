@@ -47,57 +47,20 @@ function Home() {
       
       <div className={classes.cardsContainer}>
         <Card className={classes.card}>
-          <CardActionArea component={Link} to="all">
+          <CardActionArea component={Link} to="/skyrim">
             <CardMedia
               className={classes.media}
-              image={require("../images/skyrim1.jpg")}
+              image={require("../images/skyrim2.jpg")}
               title="All Locations"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                All Locations
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                View all available locations
+                Skyrim
               </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
-        <Card className={classes.card}>
-          <CardActionArea component={Link} to="create">
-            <CardMedia
-              className={classes.media}
-              image={require("../images/skyrimmap.jpg")}
-              title="Create Challenge"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                Create Challenge
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Create a new challenge
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-
-        <Card className={classes.card}>
-          <CardActionArea component={Link} to="challenge/random">
-            <CardMedia
-              className={classes.media}
-              image={require("../images/random.jpg")}
-              title="Random Challenge"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                Random Challenge
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                Play a random challenge
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+        
       </div>
     </div>
   );

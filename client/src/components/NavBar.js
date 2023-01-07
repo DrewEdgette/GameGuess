@@ -42,7 +42,7 @@ function NavBar() {
             component={Link}
             to="/"
           >
-            Skyrim Guesser
+            Game Guess
           </Typography>
 
           {isLoggedIn ? (
