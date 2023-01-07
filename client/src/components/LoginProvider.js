@@ -11,10 +11,16 @@ function LoginProvider(props) {
     localStorage.getItem("loginName")
   );
 
+  const [loginID, setLoginID] = useState(
+    localStorage.getItem("loginID")
+  );
+
   useEffect(() => {
     localStorage.setItem('isLoggedIn', isLoggedIn);
     localStorage.setItem('loginName', loginName);
-  }, [isLoggedIn, loginName]);
+    localStorage.setItem("loginID", loginID);
+
+  }, [isLoggedIn, loginName, loginID]);
 
   const login = () => setIsLoggedIn(true);
   const logout = () => setIsLoggedIn(false);
@@ -22,7 +28,7 @@ function LoginProvider(props) {
 
   return (
     <LoginContext.Provider
-      value={{ isLoggedIn, login, logout, loginName, setLoginName }}
+      value={{ isLoggedIn, login, logout, loginName, setLoginName, loginID, setLoginID }}
     >
       {props.children}
     </LoginContext.Provider>

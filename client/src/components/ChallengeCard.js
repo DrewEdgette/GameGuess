@@ -20,6 +20,8 @@ function ChallengeCard({ challengeInfo, classes, page }) {
           className={classes.media}
           image={challengeInfo ? challengeInfo.url : null}
           title={challengeInfo ? challengeInfo.name : null}
+          style={{filter: "blur(5px)"}}
+          
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">

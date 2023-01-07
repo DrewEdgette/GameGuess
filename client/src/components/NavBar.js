@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NavBar() {
-  const { isLoggedIn, loginName } = useContext(LoginContext);
+  const { isLoggedIn, loginName, loginID } = useContext(LoginContext);
 
   const classes = useStyles();
   return (

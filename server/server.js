@@ -8,8 +8,7 @@ const crypto = require("crypto");
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/tiles', express.static('skyrim-images'));
-
+app.use("/tiles", express.static("skyrim-images"));
 
 const db = mysql.createConnection({
   user: "root",
@@ -57,7 +56,6 @@ app.post("/signup", (req, res) => {
   });
 });
 
-
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -81,7 +79,8 @@ app.post("/login", (req, res) => {
       // The username and password are correct, so log the user in
       // req.session.user = results[0];
       console.log("success");
-      res.json({ success: true });
+
+      res.json({ success: true, user: results[0] });
     } else {
       console.log("wrong username or password");
       // The username and password are incorrect, so return an error
@@ -89,7 +88,6 @@ app.post("/login", (req, res) => {
     }
   });
 });
-
 
 // // for testing the most recent locations
 // app.get("/random", (req, res) => {
@@ -136,30 +134,37 @@ app.get("/challenges", (req, res) => {
   });
 });
 
-
-
 app.post("/create", (req, res) => {
   const uniqueID = req.body.uniqueID;
   const mapName = req.body.mapName;
   const description = req.body.description;
   const ids = req.body.ids;
+  const creator = req.body.creator;
+  const creator_id = req.body.creator_id;
 
   db.query(
-    "INSERT INTO challenges (id, name, description) VALUES (?, ?, ?)",
-    [uniqueID, mapName, description],
+    "INSERT INTO challenges (id, creator, name, description, creator_id, likes, game) VALUES (?, ?, ?, ?, ?, 0, 'Skyrim')",
+    [uniqueID, creator, mapName, description, creator_id],
     (error, result) => {
       if (error) {
         console.log(error);
+      } else {
+        ids.forEach((id) => {
+          db.query(
+            "INSERT INTO challenge_locations (id, challenge_id, location_id) VALUES (uuid(), ?, ?)",
+            [uniqueID, id],
+            (error, result) => {
+              if (error) {
+                console.log(error);
+              }
+            }
+          );
+        });
+
+        res.json({ success: true });
       }
     }
   );
-
-  ids.forEach((id) => {
-    db.query(
-      "INSERT INTO challenge_locations (id, challenge_id, location_id) VALUES (uuid(), ?, ?)",
-      [uniqueID, id]
-    );
-  });
 });
 
 app.get("/check/:id", (req, res) => {
@@ -179,8 +184,6 @@ app.get("/check/:id", (req, res) => {
   });
 });
 
-
-
 app.get("/challengesbyuser/:id", (req, res) => {
   const id = req.params.id;
 
@@ -198,7 +201,7 @@ app.get("/challengesbyuser/:id", (req, res) => {
   ) cl ON cl.challenge_id = c.id
   JOIN challenge_locations cl2 ON cl2.challenge_id = cl.challenge_id AND cl2.id = cl.min_id
   JOIN locations l ON l.id = cl2.location_id
-  WHERE c.creator_id = ? LIMIT ? OFFSET ?;`
+  WHERE c.creator_id = ? LIMIT ? OFFSET ?;`;
 
   // Create the count query
   const countQuery = `SELECT COUNT(*) as count
@@ -210,7 +213,7 @@ app.get("/challengesbyuser/:id", (req, res) => {
   ) cl ON cl.challenge_id = c.id
   JOIN challenge_locations cl2 ON cl2.challenge_id = cl.challenge_id AND cl2.id = cl.min_id
   JOIN locations l ON l.id = cl2.location_id
-  WHERE c.creator_id = ?`
+  WHERE c.creator_id = ?`;
 
   // Execute the count query
   db.query(countQuery, [id], (error, countResult) => {
@@ -226,7 +229,9 @@ app.get("/challengesbyuser/:id", (req, res) => {
           res.send(error);
         } else {
           if (selectResult.length === 0) {
-            console.log("creator id not found or they haven't made any challenges");
+            console.log(
+              "creator id not found or they haven't made any challenges"
+            );
             res.send([]);
           } else {
             // Return the challenges and the total number of pages in the response
@@ -237,7 +242,6 @@ app.get("/challengesbyuser/:id", (req, res) => {
     }
   });
 });
-
 
 app.get("/allchallenges", (req, res) => {
   // Get the limit and offset values from the query string
@@ -254,7 +258,7 @@ app.get("/allchallenges", (req, res) => {
   ) cl ON cl.challenge_id = c.id
   JOIN challenge_locations cl2 ON cl2.challenge_id = cl.challenge_id AND cl2.id = cl.min_id
   JOIN locations l ON l.id = cl2.location_id
-  LIMIT ? OFFSET ?;`
+  LIMIT ? OFFSET ?;`;
 
   // Create the count query
   const countQuery = `SELECT COUNT(*) as count
@@ -265,7 +269,7 @@ app.get("/allchallenges", (req, res) => {
     GROUP BY challenge_id
   ) cl ON cl.challenge_id = c.id
   JOIN challenge_locations cl2 ON cl2.challenge_id = cl.challenge_id AND cl2.id = cl.min_id
-  JOIN locations l ON l.id = cl2.location_id`
+  JOIN locations l ON l.id = cl2.location_id`;
 
   // Execute the count query
   db.query(countQuery, (error, countResult) => {
@@ -291,7 +295,6 @@ app.get("/allchallenges", (req, res) => {
     }
   });
 });
-
 
 app.get("/topchallenges", (req, res) => {
   // Get the limit and offset values from the query string
@@ -309,7 +312,7 @@ app.get("/topchallenges", (req, res) => {
   JOIN challenge_locations cl2 ON cl2.challenge_id = cl.challenge_id AND cl2.id = cl.min_id
   JOIN locations l ON l.id = cl2.location_id
   ORDER BY likes DESC
-  LIMIT ? OFFSET ?;`
+  LIMIT ? OFFSET ?;`;
 
   // Create the count query
   const countQuery = `SELECT COUNT(*) as count
@@ -320,7 +323,7 @@ app.get("/topchallenges", (req, res) => {
     GROUP BY challenge_id
   ) cl ON cl.challenge_id = c.id
   JOIN challenge_locations cl2 ON cl2.challenge_id = cl.challenge_id AND cl2.id = cl.min_id
-  JOIN locations l ON l.id = cl2.location_id`
+  JOIN locations l ON l.id = cl2.location_id`;
 
   // Execute the count query
   db.query(countQuery, (error, countResult) => {
@@ -346,27 +349,6 @@ app.get("/topchallenges", (req, res) => {
     }
   });
 });
-
-
-
-app.get("/getfirstthumbnail/:id", (req, res) => {
-  const id = req.params.id;
-
-  db.query("SELECT * FROM locations JOIN challenge_locations ON challenge_locations.location_id = locations.id WHERE challenge_locations.challenge_id = ? limit 1", [id], (error, result) => {
-    if (error) {
-      alert("error")
-      res.send(error);
-    } else {
-      if (result.length === 0) {
-        console.log("challenge id not found");
-        res.send([]);
-      } else {
-        res.send(result);
-      }
-    }
-  });
-});
-
 
 app.get("/:id", (req, res) => {
   const id = req.params.id;

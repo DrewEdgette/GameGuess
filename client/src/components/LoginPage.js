@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function LoginPage() {
-  const { login, setLoginName } = useContext(LoginContext);
+  const { login, setLoginName, setLoginID } = useContext(LoginContext);
 
   const classes = useStyles();
 
@@ -72,9 +72,10 @@ function LoginPage() {
       const result = await response.json();
       if (result.success) {
         login();
-        setLoginName(username);
+        setLoginName(result.user.username);
+        setLoginID(result.user.id);
         console.log("log in successfull");
-        navigate("/")
+        navigate("/");
       } else {
         // TODO: display an error message
       }
