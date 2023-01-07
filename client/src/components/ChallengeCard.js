@@ -15,7 +15,7 @@ function ChallengeCard({ challengeInfo, classes, page }) {
 
   return (
     <Card className={classes.card}>
-      <CardActionArea component={Link} to={`/challenge/${challengeInfo.id}`}>
+      <CardActionArea component={Link} to={`/skyrim/challenge/${challengeInfo.id}`}>
         <CardMedia
           className={classes.media}
           image={challengeInfo ? challengeInfo.url : null}

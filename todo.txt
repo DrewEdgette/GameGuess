@@ -1,0 +1,13 @@
+make it so the username, user_id, and game get assigned in the challenge when creating a map
+
+add creation datetime to challenges and then sort by that when displaying all to get the newest
+
+make it so the url in the challenge card is dynamic based on the game (/skyrim/challenge/id /{game}/challenge/id)
+
+similarly, make it so the image for the challenge card is dynamic (image={require("../images/{game}/top.jpg")})
+
+organize components into folders
+
+show number of likes on challenge card and make it so users can add a like
+
+add blur to challenge card thumbnails so the first location isn't given away

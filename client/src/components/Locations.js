@@ -2,7 +2,7 @@ import React from "react";
 import AllMap from "./AllMap";
 import { useState, useEffect } from "react";
 
-function All() {
+function Locations() {
   const [locations, setLocations] = useState([]);
   const [challenges, setChallenges] = useState([]);
 
@@ -34,4 +34,4 @@ function All() {
   );
 }
 
-export default All;
+export default Locations;

@@ -38,22 +38,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MyChallenges() {
+function Top() {
   const [challengesInfo, setChallengesInfo] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const classes = useStyles();
 
   const fetchChallengesInfo = async (page) => {
-    const id = "5376df23-8abe-11ed-939e-00d861e59489";
-
     // Calculate the OFFSET value based on the current page number
-    const offset = (page - 1) * 2;
+    const offset = (page - 1) * 8;
 
     const response = await fetch(
-      `http://localhost:8000/challengesbyuser/${id}?limit=2&offset=${offset}`
+      `http://localhost:8000/topchallenges/?limit=8&offset=${offset}`
     );
     const json = await response.json();
+    console.log(json);
 
     // Concatenate the new challenges with the existing challenges
     setChallengesInfo(challengesInfo.concat(json.challenges));
@@ -96,4 +95,4 @@ function MyChallenges() {
   );
 }
 
-export default MyChallenges;
+export default Top;

@@ -44,25 +44,62 @@ function Skyrim() {
   return (
     <div className={classes.root}>
       <NavBar></NavBar>
-      
+
       <div className={classes.cardsContainer}>
         <Card className={classes.card}>
-          <CardActionArea component={Link} to="all">
+          <CardActionArea component={Link} to="new">
             <CardMedia
               className={classes.media}
-              image={require("../images/skyrim1.jpg")}
-              title="All Locations"
+              image={require("../images/new.jpg")}
+              title="New Challenges"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                All Locations
+                New Challenges
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                View all available locations
+                Latest challenges for [game]
               </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
+
+        <Card className={classes.card}>
+          <CardActionArea component={Link} to="top">
+            <CardMedia
+              className={classes.media}
+              image={require("../images/throne.jpg")}
+              title="Top Challenges"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                Top Challenges
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Most liked challenges for [game]
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+
+        <Card className={classes.card}>
+          <CardActionArea component={Link} to="challenge/random">
+            <CardMedia
+              className={classes.media}
+              image={require("../images/random.jpg")}
+              title="Random Challenge"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                Random Challenge
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Play a random challenge
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+
         <Card className={classes.card}>
           <CardActionArea component={Link} to="create">
             <CardMedia
@@ -82,18 +119,18 @@ function Skyrim() {
         </Card>
 
         <Card className={classes.card}>
-          <CardActionArea component={Link} to="challenge/random">
+          <CardActionArea component={Link} to="locations">
             <CardMedia
               className={classes.media}
-              image={require("../images/random.jpg")}
-              title="Random Challenge"
+              image={require("../images/skyrim1.jpg")}
+              title="All Locations"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                Random Challenge
+                All Locations
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                Play a random challenge
+                View all available locations
               </Typography>
             </CardContent>
           </CardActionArea>
