@@ -13,14 +13,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#424242",
     },
   },
-  card: {
-    width: "100%",
-    maxWidth: 400,
-    margin: theme.spacing(2),
-  },
-  media: {
-    height: 200,
-  },
   cardsContainer: {
     display: "flex",
     justifyContent: "center",
@@ -46,10 +38,10 @@ function New() {
 
   const fetchChallengesInfo = async (page) => {
     // Calculate the OFFSET value based on the current page number
-    const offset = (page - 1) * 8;
+    const offset = (page - 1) * 6;
 
     const response = await fetch(
-      `http://localhost:8000/allchallenges/?limit=8&offset=${offset}`
+      `http://localhost:8000/allchallenges/?limit=6&offset=${offset}`
     );
     const json = await response.json();
     console.log(json);
@@ -76,7 +68,6 @@ function New() {
         {challengesInfo.map((challenge) => {
           return (
             <ChallengeCard
-              classes={classes}
               challengeInfo={challenge}
               page={"mychallenges"}
             ></ChallengeCard>

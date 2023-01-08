@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -9,19 +9,40 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { ChallengeContext } from "../contexts/ChallengeContext";
+import { makeStyles } from "@material-ui/core/styles";
 
-function ChallengeCard({ challengeInfo, classes, page }) {
+const useStyles = makeStyles((theme) => ({
+  card: {
+    width: "100%",
+    maxWidth: "400px",
+    margin: theme.spacing(2),
+  },
+  media: {
+    height: 200,
+  },
+  landingCard: {
+    width: "100%",
+    maxWidth: "50vw",
+    margin: theme.spacing(2),
+  },
+}));
+
+
+function ChallengeCard({ challengeInfo, page }) {
   const { setMode } = useContext(ChallengeContext);
+  const classes = useStyles();
 
   return (
-    <Card className={classes.card}>
-      <CardActionArea component={Link} to={`/skyrim/challenge/${challengeInfo.id}`}>
+    <Card className={page === "landing" ? classes.landingCard : classes.card}>
+      <CardActionArea
+        component={Link}
+        to={`/skyrim/challenge/${challengeInfo.id}`}
+      >
         <CardMedia
           className={classes.media}
           image={challengeInfo ? challengeInfo.url : null}
           title={challengeInfo ? challengeInfo.name : null}
-          style={{filter: "blur(5px)"}}
-          
+          style={{ filter: "blur(5px)" }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
@@ -29,6 +50,9 @@ function ChallengeCard({ challengeInfo, classes, page }) {
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {challengeInfo ? challengeInfo.description : "Map Description"}
+          </Typography>
+          <Typography variant="h5" color="textSecondary" component="h2">
+            {challengeInfo ? challengeInfo.likes + " Likes" : "Likes"}
           </Typography>
           <Typography variant="h5" color="textSecondary" component="h2">
             {challengeInfo ? challengeInfo.creator : "Creator"}

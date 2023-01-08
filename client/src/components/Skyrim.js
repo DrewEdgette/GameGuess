@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -38,8 +38,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function getCurrentUrlEnding() {
+  const pathname = window.location.pathname;
+  const parts = pathname.split('/');
+  return parts[parts.length - 1];
+}
+
+
 function Skyrim() {
   const classes = useStyles();
+  const [gameName, setGameName] = useState();
+
+  useEffect(() => {
+    setGameName(getCurrentUrlEnding());
+  }, [])
 
   return (
     <div className={classes.root}>
@@ -58,7 +70,7 @@ function Skyrim() {
                 New Challenges
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                Latest challenges for [game]
+                Latest challenges for {gameName}
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -76,7 +88,7 @@ function Skyrim() {
                 Top Challenges
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                Most liked challenges for [game]
+                Most liked challenges for {gameName}
               </Typography>
             </CardContent>
           </CardActionArea>

@@ -12,22 +12,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#424242",
     },
   },
-  card: {
-    width: "100%",
-    maxWidth: 600,
-    margin: theme.spacing(2),
-  },
 
-  button: {
-    color: "black",
-    "&:hover": {
-      color: "cyan",
-    },
-  },
-
-  media: {
-    height: 200,
-  },
   cardsContainer: {
     display: "flex",
     justifyContent: "center",
@@ -51,7 +36,6 @@ function Start({ challengeInfo }) {
       {challengeInfo ? (
         <div className={classes.cardsContainer}>
           <ChallengeCard
-            classes={classes}
             challengeInfo={challengeInfo}
             page={"landing"}
           ></ChallengeCard>

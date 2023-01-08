@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import NavBar from "./NavBar";
 import ChallengeCard from "./ChallengeCard";
 import Button from "@material-ui/core/Button";
+import { LoginContext } from "../contexts/LoginContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,14 +13,6 @@ const useStyles = makeStyles((theme) => ({
     "& body": {
       backgroundColor: "#424242",
     },
-  },
-  card: {
-    width: "100%",
-    maxWidth: 400,
-    margin: theme.spacing(2),
-  },
-  media: {
-    height: 200,
   },
   cardsContainer: {
     display: "flex",
@@ -44,14 +37,16 @@ function MyChallenges() {
   const [totalPages, setTotalPages] = useState(1);
   const classes = useStyles();
 
+  const { isLoggedIn, loginID } = useContext(LoginContext);
+
   const fetchChallengesInfo = async (page) => {
-    const id = "5376df23-8abe-11ed-939e-00d861e59489";
+    const id = loginID;
 
     // Calculate the OFFSET value based on the current page number
-    const offset = (page - 1) * 2;
+    const offset = (page - 1) * 6;
 
     const response = await fetch(
-      `http://localhost:8000/challengesbyuser/${id}?limit=2&offset=${offset}`
+      `http://localhost:8000/challengesbyuser/${id}?limit=6&offset=${offset}`
     );
     const json = await response.json();
 

@@ -20,10 +20,6 @@ function AccountMenu() {
           <ListItemIcon></ListItemIcon>
           <ListItemText primary="My Challenges" />
         </ListItem>
-        <ListItem button component={Link} to="/leaderboards">
-          <ListItemIcon></ListItemIcon>
-          <ListItemText primary="Leaderboards" />
-        </ListItem>
         <ListItem button component={Link} to="/settings">
           <ListItemIcon></ListItemIcon>
           <ListItemText primary="Settings" />
