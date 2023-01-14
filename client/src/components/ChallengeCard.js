@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { ChallengeContext } from "../contexts/ChallengeContext";
 import { makeStyles } from "@material-ui/core/styles";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -26,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
   },
 }));
-
 
 function ChallengeCard({ challengeInfo, page }) {
   const { setMode } = useContext(ChallengeContext);
@@ -48,15 +48,24 @@ function ChallengeCard({ challengeInfo, page }) {
           <Typography gutterBottom variant="h5" component="h2">
             {challengeInfo ? challengeInfo.name : "Map Title"}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+
+          <Typography variant="h5" color="textSecondary" component="h5">
             {challengeInfo ? challengeInfo.description : "Map Description"}
           </Typography>
-          <Typography variant="h5" color="textSecondary" component="h2">
-            {challengeInfo ? challengeInfo.likes + " Likes" : "Likes"}
+
+          <Typography variant="body2" color="textSecondary" component="h2">
+            {challengeInfo ?  new Date(challengeInfo.create_time).toLocaleString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'}) : "Create Time"}
           </Typography>
+
+          <Typography variant="h5" color="textSecondary" component="h2">
+          <FavoriteIcon/>
+            {challengeInfo ? " " + challengeInfo.likes : "Likes"}
+          </Typography>
+
           <Typography variant="h5" color="textSecondary" component="h2">
             {challengeInfo ? challengeInfo.creator : "Creator"}
           </Typography>
+
         </CardContent>
       </CardActionArea>
       {page === "landing" && (

@@ -4,11 +4,9 @@ import { useState, useEffect } from "react";
 
 function Locations() {
   const [locations, setLocations] = useState([]);
-  const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
     fetchAllLocations();
-    fetchAllChallenges();
   }, []);
 
   const fetchAllLocations = async () => {
@@ -18,18 +16,9 @@ function Locations() {
     setLocations(locationList);
   };
 
-  const fetchAllChallenges = async () => {
-    const response = await fetch("http://localhost:8000/challenges");
-    const challengeList = await response.json();
-
-    setChallenges(challengeList);
-  };
-
   return (
     <div className="results-info">
       <AllMap locations={locations}></AllMap>
-      <strong>All Challenges</strong>
-      {challenges.map(challenge => {return (<div>http://localhost:3000/challenge/{challenge.id} {challenge.name}<br/></div>)})}
     </div>
   );
 }

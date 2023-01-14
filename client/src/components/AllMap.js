@@ -12,7 +12,7 @@ function AllMap({ locations, setCurrentLocation }) {
 
 
   return (
-    <div className="results-map">
+    <div className="all-map">
       <MapContainer
         maxBounds={[
           [-64, -180],

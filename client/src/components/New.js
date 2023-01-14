@@ -41,7 +41,7 @@ function New() {
     const offset = (page - 1) * 6;
 
     const response = await fetch(
-      `http://localhost:8000/allchallenges/?limit=6&offset=${offset}`
+      `http://localhost:8000/newchallenges/?limit=6&offset=${offset}`
     );
     const json = await response.json();
     console.log(json);

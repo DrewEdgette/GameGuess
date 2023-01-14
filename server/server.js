@@ -296,6 +296,62 @@ app.get("/allchallenges", (req, res) => {
   });
 });
 
+
+
+app.get("/newchallenges", (req, res) => {
+  // Get the limit and offset values from the query string
+  const limit = Number(req.query.limit) || 2;
+  const offset = Number(req.query.offset) || 0;
+
+  // Create the SELECT statement
+  const selectQuery = `SELECT c.*, l.url
+  FROM challenges c
+  JOIN (
+    SELECT challenge_id, MIN(id) AS min_id
+    FROM challenge_locations
+    GROUP BY challenge_id
+  ) cl ON cl.challenge_id = c.id
+  JOIN challenge_locations cl2 ON cl2.challenge_id = cl.challenge_id AND cl2.id = cl.min_id
+  JOIN locations l ON l.id = cl2.location_id
+  ORDER BY create_time desc
+  LIMIT ? OFFSET ?;`;
+
+  // Create the count query
+  const countQuery = `SELECT COUNT(*) as count
+  FROM challenges c
+  JOIN (
+    SELECT challenge_id, MIN(id) AS min_id
+    FROM challenge_locations
+    GROUP BY challenge_id
+  ) cl ON cl.challenge_id = c.id
+  JOIN challenge_locations cl2 ON cl2.challenge_id = cl.challenge_id AND cl2.id = cl.min_id
+  JOIN locations l ON l.id = cl2.location_id`;
+
+  // Execute the count query
+  db.query(countQuery, (error, countResult) => {
+    if (error) {
+      res.send(error);
+    } else {
+      // Calculate the total number of pages based on the total number of challenges and the limit value
+      const totalPages = Math.ceil(countResult[0].count / limit);
+
+      // Execute the SELECT statement
+      db.query(selectQuery, [limit, offset], (error, selectResult) => {
+        if (error) {
+          res.send(error);
+        } else {
+          if (selectResult.length === 0) {
+            res.send([]);
+          } else {
+            // Return the challenges and the total number of pages in the response
+            res.send({ challenges: selectResult, totalPages });
+          }
+        }
+      });
+    }
+  });
+});
+
 app.get("/topchallenges", (req, res) => {
   // Get the limit and offset values from the query string
   const limit = Number(req.query.limit) || 2;
