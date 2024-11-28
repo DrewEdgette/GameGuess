@@ -34,15 +34,16 @@ function NavBar() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static"style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}>
+        <Toolbar style={{ height: "8vh" }}>
           <Typography
+            style={{ fontWeight: 'bold', fontSize: "0.74em"}}
             variant="h6"
             className={classes.title}
             component={Link}
             to="/"
           >
-            Game Guess
+            GameGuess
           </Typography>
 
           {isLoggedIn ? (

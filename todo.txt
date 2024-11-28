@@ -1,4 +1,4 @@
-add creation datetime to challenges and then sort by that when displaying all to get the newest
+add creation datetime to challenges and then sort by that when displaying all to get the newest 
 
 make it so the url in the challenge card is dynamic based on the game (/skyrim/challenge/id /{game}/challenge/id)
 

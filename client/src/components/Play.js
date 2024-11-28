@@ -36,6 +36,8 @@ function Play() {
         height="100vh"
         image={locations[round].url}
         autoLoad
+        showZoomCtrl={false}
+        showFullscreenCtrl={false}
       ></Pannellum>
       <Score round={round} minutes={minutes} seconds={seconds}></Score>
       <Map></Map>

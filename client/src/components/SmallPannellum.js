@@ -9,6 +9,8 @@ function SmallPannellum({ image }) {
         height="100%"
         image={image}
         autoLoad
+        showZoomCtrl={false}
+        showFullscreenCtrl={false}
       ></Pannellum>
     </div>
   );

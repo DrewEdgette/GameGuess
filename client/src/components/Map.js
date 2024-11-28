@@ -24,7 +24,7 @@ function Map() {
           minZoom={1}
           maxZoom={8}
           noWrap={true}
-          url="http://localhost:8000/tiles/map-{z}-{x}-{y}.jpg"
+          url="https://tiles.modmapper.com/{z}/{x}/{y}.jpg"
         />
         <MapEvents hasGuessed={() => setHasGuessed(true)}></MapEvents>
 

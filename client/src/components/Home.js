@@ -12,9 +12,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "100vh",
     flexGrow: 1,
-    backgroundColor: "#424242",
+    backgroundColor: "#303030",
     "& body": {
-      backgroundColor: "#424242",
+      backgroundColor: "#303030",
     },
   },
   card: {

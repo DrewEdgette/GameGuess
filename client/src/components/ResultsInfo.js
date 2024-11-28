@@ -53,7 +53,7 @@ function ResultsInfo() {
 
   return (
     <div className="results-info">
-      <strong>{score} points</strong>
+      <h1>{score} points</h1>
       <p>
         Your guess was about <strong>{stringDistance}</strong> from the correct location.
       </p>

@@ -80,16 +80,18 @@ select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  top: 15px;
-  right: 15px;
-  width: 45vw;
-  height: 50px;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 8vh;
+  min-height: 50px;
   color: white;
-  background-color: black;
-  border-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Apply blur effect */
   padding: 0 20px;
   font-size: 24px;
 }
+
 
 .guess-map {
   position: absolute;
@@ -109,7 +111,7 @@ select {
 
 .guess-map > button {
   width: 100%;
-  border-radius: 20px;
+  border-radius: 5px;
   border-color: rgb(9, 142, 9);
   color: white;
   background-color: rgb(9, 142, 9);
@@ -143,29 +145,76 @@ select {
 }
 
 
-.results-map {
-  width: 100vw;
-  height: 70vh;
+.results {
+  background-color: #303030; /* Darker background for a modern look */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  text-align: center;
+  font-family: 'Roboto', sans-serif; /* Clean modern font */
+  padding: 20px; /* Add some padding for better spacing */
 }
 
+/* Map Container */
+.results-map {
+  width: 100%; /* Full width */
+  max-width: 800px; /* Restrict max width */
+  height: 400px; /* Fixed height */
+  margin-bottom: 20px; /* Space between map and info */
+  border-radius: 10px; /* Rounded corners for the map */
+  overflow: hidden; /* Prevent content spill */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
+  background-color: #1e1e1e; /* Background fallback */
+  border: 2px solid #5a5a5a; /* Subtle border to frame the map */
+}
+
+/* Leaflet Container (inside map) */
 .results-map > .leaflet-container {
   width: 100%;
-  height:100%;
-  position: relative;
-  background-color: #274257;
+  height: 100%; /* Full height to fill container */
+  background-color: #274257; /* Matches map's aesthetic */
 }
 
+/* Info Section */
 .results-info {
-  font-size: 22px;
-  display: block;
+  color: white;
+  width: 100%; 
+  max-width: 800px; 
+  font-size: 1.7em; 
+  text-align: center;
+  padding: 10px 20px; /* Add padding for better spacing */
 }
 
 .results-info > button {
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
-  height: 10vh;
-  z-index: 99;
+  background-color: black;
+  margin-top: 20px;
+}
+
+/* Buttons */
+button {
+  background-color: #616161; /* Neutral gray */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px; /* Rounded corners */
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+button:hover {
+  transform: scale(1.01); /* Slight zoom effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+}
+
+/* Header (Optional, if you have one) */
+header {
+  background-color: #212121; /* Dark header */
+  color: white;
+  font-size: 2em;
 }
 
 
